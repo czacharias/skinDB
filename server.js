@@ -48,8 +48,8 @@ passport.deserializeUser(function(obj, done) {
 });
 
 passport.use(new SteamStrategy({
-    returnURL: 'http://localhost:3000/auth/steam/return',
-    realm: 'http://localhost:3000/',
+    returnURL: '/auth/steam/return',
+    realm: '/',
     apiKey: '36FB4EB1091C2553C1E9C8DB5135ED5C'
   },
   function(identifier, profile, done) {
@@ -81,6 +81,11 @@ app.use(passport.session());
 
 
 // Routing
+
+app.get('/', (req, res) => {
+    res.render("main", {user:req.user});
+    
+})
 
 app.get('/main', (req, res) => {
     res.render("main", {user:req.user});
