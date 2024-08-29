@@ -1,0 +1,25 @@
+{
+  "name": "webtest",
+  "version": "1.0.0",
+  "main": "main.html",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "author": "connor zacharias (https://google.com/)",
+  "license": "MIT",
+  "description": "",
+  "dependencies": {
+    "@root/async-router": "^1.0.14",
+    "async-router": "^0.0.9",
+    "ejs": "^3.1.10",
+    "express-fileupload": "^1.5.1",
+    "express-session": "^1.18.0",
+    "express.js": "^1.0.0",
+    "firebase": "^10.12.4",
+    "get-steam-inventory": "^2.0.0",
+    "nodemon": "^3.1.4",
+    "passport": "^0.7.0",
+    "passport-steam": "^1.0.18",
+    "strategy": "^1.1.1"
+  }
+}

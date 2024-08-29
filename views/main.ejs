@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <title>basic web test</title>
+
+        <style type="text/css">
+            .table, .th, .td {
+              border: 1px solid;
+            }
+            .img_div { float: left; 
+                text-align: center;
+                margin: 5px;
+                border-radius: 7px;
+                padding: 3px;
+            }
+
+            .img_div img {
+                margin : auto;
+            }
+
+        </style>
+    </head>
+
+    <body>
+
+        <nav>
+            <button><a href="/main">main</a></button>
+            <button><a href="faq.html">faq</a></button>
+            <button><a href="/dashboard">profile</a></button>
+        </nav>
+
+        <header>
+            <h2>SkinDB</h2>
+        </header>
+        <% if(!user) { %>
+            <div>
+                <button><p><a href="auth/steam">Login with Steam</a></p></button>
+            </div><br>
+        <% } %>
+
+        <div>
+            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for skins..">
+            
+        </div>
+        <br>
+
+        <table class="table"> 
+            <thead>
+                <tr>
+                    <th>user</th>
+                    <th>inventory</th>
+                </tr>
+            </thead>
+            <tbody id="myTable" class="myTable" name="myTable">
+            </tbody>
+        </table>
+
+        <div class="flex items-center justify-center h-screen bg-slate-900 text-white" id="steamLink">
+            
+        </div>
+
+        <script>
+            function myFunction() {
+            // Declare variables
+                var input, filter, table, tr, td, i, txtValue;
+                input = document.getElementById("myInput");
+                filter = input.value.toUpperCase();
+                table = document.getElementById("myTable");
+                tr = table.getElementsByTagName("tr");
+
+                // Loop through all table rows, and hide those who don't match the search query
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[1];
+                    if (td) {
+                        for(j = 0; j < td.getElementsByClassName("weapon_img").length; j++){
+                            txtValue = td.getElementsByClassName("weapon_img")[j];
+                            tohide = td.getElementsByClassName("img_div")[j];
+                            if (txtValue.name.toUpperCase().indexOf(filter) > -1) {
+                                tohide.style.display = "";
+                            } else {
+                                tohide.style.display = "none";
+                            }
+                        }
+                    }
+                }
+            }
+        </script>
+
+        <script type="module">
+
+            // Import the functions you need from the SDKs you need
+        
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+        
+            import { getFirestore, addDoc, collection, getDocs, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+        
+            // TODO: Add SDKs for Firebase products that you want to use
+        
+            // https://firebase.google.com/docs/web/setup#available-libraries
+        
+        
+            // Your web app's Firebase configuration
+        
+            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        
+            const firebaseConfig = {
+        
+            apiKey: "AIzaSyBRasi1BGcph-u8n2XjiK7ruUKlTYriVdI",
+        
+            authDomain: "basicwebtest-28c21.firebaseapp.com",
+        
+            databaseURL: "https://basicwebtest-28c21-default-rtdb.firebaseio.com",
+        
+            projectId: "basicwebtest-28c21",
+        
+            storageBucket: "basicwebtest-28c21.appspot.com",
+        
+            messagingSenderId: "626495824572",
+        
+            appId: "1:626495824572:web:5845c1f9e980c80b0226b9",
+        
+            measurementId: "G-2NV8GLRX7G"
+        
+            };
+        
+        
+            // Initialize Firebase
+        
+            const app = initializeApp(firebaseConfig);
+        
+            const db = getFirestore(app);
+
+            getDocs(collection(db, "test-collection")).then((snapshot) => {
+                snapshot.docs.forEach((doc) => {
+                    var row = `<tr>
+                                    <td>
+                                        <a href="https://steamcommunity.com/profiles/${doc.id}" target=”_blank”><img src="${doc.data()["profilePicture"]}"><figcaption style="text-align : center">${doc.data()["displayName"]}</figcaption></a>
+                                        
+                                    </td>
+                                    <td>`;
+                    var data = doc.data()["invData"];
+                    for(var i = 0; i < data.length; i++){
+                        if(data[i].marketable && data[i].tradable){
+
+                            row += `<div class="img_div" style="border: 2px solid black"><a href="https://steamcommunity.com/market/listings/730/${data[i].market_name}" class="weapon_img" target=”_blank” name="${data[i].name}"><img src="https://community.akamai.steamstatic.com/economy/image/${data[i].icon_url}/100fx100f" title="${data[i].name}"></a><figcaption>`;
+                            
+                            var slots = 4;
+                            for(var j = 0; j < data[i].descriptions.length; j++){
+                                console.log(data[i].descriptions[j].value);
+                                var d = Array.from(data[i].descriptions[j].value.matchAll(/src="[^"]*"/g));
+                                var names = Array.from(data[i].descriptions[j].value.matchAll(/Sticker:[^<]*/g));
+                                if(names[0]){
+                                    names=names[0][0].slice(9).split(",");
+                                }
+                                for(var m = 0; m < d.length; m++){
+                                    console.log("hit");
+                                    row += `<a href="https://steamcommunity.com/market/listings/730/Sticker | ${names[m].trim()}" target=”_blank” ><img width="31" height="30" ` + d[m] + ` ></a>`;
+                                    slots -= 1;
+                                }
+                                
+                            }
+                            for(;slots >= 0; slots--){
+                                row += `<img width="27" height="30" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/No_icon_red.svg/1200px-No_icon_red.svg.png" > `;
+                            }
+                            row += `</figcaption></div>`;
+
+                        }
+                    }
+                    row += "</td></tr>";
+                    document.getElementById('myTable').innerHTML += row;
+                });
+
+            })
+            
+        
+        </script>
+
+
+    </body>
+</html>
