@@ -48,8 +48,8 @@ passport.deserializeUser(function(obj, done) {
 });
 
 passport.use(new SteamStrategy({
-    returnURL: '/auth/steam/return',
-    realm: '/',
+    returnURL: 'https://skindb.onrender.com/auth/steam/return',
+    realm: 'https://skindb.onrender.com/',
     apiKey: '36FB4EB1091C2553C1E9C8DB5135ED5C'
   },
   function(identifier, profile, done) {
