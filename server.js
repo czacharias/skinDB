@@ -16,21 +16,21 @@ let initial_path = path.join(__dirname, "views");
 
 const firebaseConfig = {
 
-    apiKey: "AIzaSyBRasi1BGcph-u8n2XjiK7ruUKlTYriVdI",
+    apiKey: process.env.apiKey,
   
-    authDomain: "basicwebtest-28c21.firebaseapp.com",
+    authDomain: process.env.authDomain,
   
-    databaseURL: "https://basicwebtest-28c21-default-rtdb.firebaseio.com",
+    databaseURL: process.env.databaseURL,
   
-    projectId: "basicwebtest-28c21",
+    projectId: process.env.databaseURL,
   
-    storageBucket: "basicwebtest-28c21.appspot.com",
+    storageBucket: process.env.storageBucket,
   
-    messagingSenderId: "626495824572",
+    messagingSenderId: process.env.messagingSenderId,
   
-    appId: "1:626495824572:web:5845c1f9e980c80b0226b9",
+    appId: process.env.appId,
   
-    measurementId: "G-2NV8GLRX7G"
+    measurementId: process.env.measurementId
   
 };
   
@@ -50,7 +50,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new SteamStrategy({
     returnURL: 'https://skindb.onrender.com/auth/steam/return',
     realm: 'https://skindb.onrender.com/',
-    apiKey: '36FB4EB1091C2553C1E9C8DB5135ED5C'
+    apiKey: process.env.steamApiKey
   },
   function(identifier, profile, done) {
     process.nextTick(function () {
