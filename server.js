@@ -83,7 +83,7 @@ app.use(passport.session());
 // Routing
 
 app.get('/', (req, res) => {
-    res.render("main", {user:req.user});
+    res.render("landing", {user:req.user});
     
 })
 
