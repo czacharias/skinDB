@@ -1,0 +1,19 @@
+.body{
+    background-color: #171461;
+    background-image: linear-gradient(black, darkblue);
+}
+
+.table, th, td {
+    border: 1px solid;
+  }
+
+.img_div { float: left; 
+      text-align: center;
+      margin: 5px;
+      border-radius: 7px;
+      padding: 3px;
+  }
+
+.img_div img {
+      margin : auto;
+  }
