@@ -1,11 +1,10 @@
-.body{
-    background-color: #171461;
-    background-image: linear-gradient(black, darkblue);
+body{
+    background-color: rgb(212, 25, 25);
 }
 
-.table, th, td {
+table, th, td {
     border: 1px solid;
-  }
+}
 
 .img_div { 
     float: left; 
